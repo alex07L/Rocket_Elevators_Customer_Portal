@@ -42,6 +42,7 @@
         }
     </div>
 
+    @if(ViewBag.customer["battery"].Count > 0) { 
     <div class="text-center">
         <h2 class="display-4">Battery</h2>
         <hr>
@@ -72,7 +73,8 @@
             </div>
         }
     </div>
-
+    }
+    @if(ViewBag.customer["column"].Count > 0) { 
     <div class="text-center">
         <h2 class="display-4">Column</h2>
         <hr>
@@ -103,7 +105,8 @@
             </div>
         }
     </div>
-
+    }
+    @if(ViewBag.customer["elevator"].Count > 0) { 
     <div class="text-center">
         <h2 class="display-4">Elevator</h2>
         <hr>
@@ -135,6 +138,7 @@
             </div>
         }
     </div>
+    }
     <div class="text-center">
         <h2 class="display-4">Address</h2>
         <hr>
