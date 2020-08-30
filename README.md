@@ -20,3 +20,13 @@ You will only see battery, column, elevator section if the user have one of thes
 # Address
 
 if you try to go on address page without a id that will redirect to the home page
+
+# Customer
+
+the current password of
+```
+francoise.rautenstrauch@rautenstrauch.com
+paola_vielma@aol.com
+```
+
+is Password1!
