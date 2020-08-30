@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Rocket_Elevators_Customer_Portal.Areas.Identity.Data
+
+
+@inject SignInManager<Rocket_Elevators_Customer_PortalUser> SignInManager
+@inject UserManager<Rocket_Elevators_Customer_PortalUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Rocket_Elevators_Customer_Portal</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/lib/R2.png" alt="log rocket elevator" width="100" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Intervention">Intervention</a>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Rokect Elevator - <a asp-area="" asp-controller="Home" asp-action="index">Home</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Start of ChatBot (www.chatbot.com) code -->
+    <script type="text/javascript">
+        window.__be = window.__be || {};
+        window.__be.id = "5f4ad38cc040520008d83c42";
+        (function () {
+            var be = document.createElement('script'); be.type = 'text/javascript'; be.async = true;
+            be.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.chatbot.com/widget/plugin.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(be, s);
+        })();
+    </script>
+    <!-- End of ChatBot code -->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1>Address</h1>
+</div>
+
+<div class="col-6">
+    <form action="../Home/ModifyAddress" method="post">
+        <input type="text" class="form-control" id="id" name="id" value="@ViewBag.address["id"]" style="display:none;">
+        <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" class="form-control" id="street" name="street" placeholder="street" value="@ViewBag.address["street"]">
+        </div>
+        <div class="form-group">
+            <label for="suite">Suite</label>
+            <input type="text" class="form-control" id="suite" name="suite" placeholder="suite" value="@ViewBag.address["suite"]">
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" placeholder="city" value="@ViewBag.address["city"]">
+        </div>
+        <div class="form-group">
+            <label for="postalcode">PostalCode</label>
+            <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="postalcode" value="@ViewBag.address["postalCode"]">
+        </div>
+        <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" id="country" name="country" placeholder="country" value="@ViewBag.address["country"]">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

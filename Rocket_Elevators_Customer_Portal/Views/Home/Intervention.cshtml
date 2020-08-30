@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "Intervention";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row ">
+    <div class="col-sm d-flex justify-content-center align-items-center">
+        <h1>Resquest a intervention</h1>
+    </div>
+</div>
+<form action="../Home/NeedIntervention" method="post">
+    <div class="col-4">
+
+        <div class="form-row next-step1">
+            <div class="col-sm">
+                <label for="building">Building List</label>
+                <select class="form-control" id="building" name="building">
+                    <option value="0">Select</option>
+                    @foreach (var item in ViewBag.customer["build"])
+                    {
+                        <option value="@item["id"]">@item["id"]</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row next-step2" style="display:none;">
+            <div class="col-sm">
+                <label for="battery">Batterie List</label>
+                <select class="form-control" id="battery" name="battery">
+                    <option value="0">Select</option>
+                    @foreach (var item in ViewBag.customer["battery"])
+                    { 
+                        <option class="@item["build_id"]" value="@item["id"]">@item["id"]</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row next-step3" style="display:none;">
+            <div class="col-sm">
+                <label for="column">Column List</label>
+                <select class="form-control" id="column" name="column">
+                    <option value="0">Select</option>
+                    @foreach (var item in ViewBag.customer["column"])
+                    {
+                        <option class="@item["battery_id"]" value="@item["id"]">@item["id"]</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row next-step4" style="display:none;">
+            <div class="col-sm">
+                <label for="elevator">Elevator List</label>
+                <select class="form-control" id="elevator" name="elevator">
+                    <option value="0">Select</option>
+                    @foreach (var item in ViewBag.customer["elevator"])
+                    {
+                        <option class="@item["column_id"]" value="@item["id"]">@item["id"]</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-sm">
+                <label for="description">Description List</label>
+                <textarea class="form-control" rows="5" id="description" name="description"></textarea>
+            </div>
+        </div>
+
+        <input value="Submit" class="btn btn-primary" type="submit">
+    </div>
+</form>
+<script>
+
+    $("#battery option").hide()
+    $("#column option").hide()
+    $("#elevator option").hide()
+   const urlParams = new URLSearchParams(window.location.search);
+    //const myParam = urlParams.get('myParam');
+    var pbuild = urlParams.get("build")
+    var pbattery = urlParams.get("battery")
+    var pcolumn = urlParams.get("column")
+    var pelevator = urlParams.get("elevator")
+    if (pcolumn != null) {
+        pbattery = $('#column option[value="' + pcolumn + '"]').attr("class")
+    }
+    if (pbattery != null) {
+        pbuild = $('#battery option[value="' + pbattery + '"]').attr("class")
+    }
+
+    if (pbuild != null) {
+        var build = $('#building option[value="' + pbuild + '"]');
+        build.prop("selected", true);
+        $(".next-step2").show();
+        $("."+build.val()).show()
+        if (pbattery != null) {
+            var a = $('#battery option[value="' + pbattery + '"]');
+            a.prop("selected", true);
+            a.show()
+            $(".next-step3").show()
+            $("." + a.val()).show();
+            if (pcolumn != null) {
+                var col = $('#column option[value="' + pcolumn + '"]');
+                col.prop("selected", true);
+                col.show()
+                $(".next-step4").show()
+                $("." + col.val()).show();
+                if (pelevator != null) {
+                    var el = $('#elevator option[value="' + pelevator + '"]');
+                    el.prop("selected", true);
+                    el.show()
+                    $("." + el.val()).show();
+                }
+            }
+        }
+        $('option[value="0"]').show()
+    }
+
+
+    $("#building").on("change", function () {
+        $(".next-step2").show()
+        $("#battery option").hide();
+        $("." + $(this).val()).show();
+        $(".next-step3").hide()
+        $('option[value="0"]').show()
+        $(".next-step4").hide()
+        $('#battery').prop('selectedIndex', 0);
+    })
+    $("#battery").on("change", function () {
+        $(".next-step3").show()
+        $("#column option").hide();
+        $("." + $(this).val()).show();
+        $(".next-step4").hide()
+        $('option[value="0"]').show()
+        $('#column').prop('selectedIndex', 0);
+    })
+    $("#column").on("change", function () {
+        $(".next-step4").show()
+        $("#elevator option").hide();
+        $("." + $(this).val()).show();
+        $('option[value="0"]').show()
+        $('#elevator').prop('selectedIndex', 0);
+    })
+</script>
+
+
+
+

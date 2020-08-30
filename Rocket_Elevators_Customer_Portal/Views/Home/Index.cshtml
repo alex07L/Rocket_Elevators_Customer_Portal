@@ -1,0 +1,212 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+<div class="text-center">
+    <h2 class="display-4">Data</h2>
+    <hr>
+</div>
+<div class="row text-center">
+    <div class="col-4">
+        <h2 class="display-4">Battery</h2>
+        <canvas id="chart_battery" width="200" height="200"></canvas>
+    </div>
+    <div class="col-4">
+        <h2 class="display-4">Column</h2>
+        <canvas id="chart_column" width="200" height="200"></canvas>
+    </div>
+    <div class="col-4">
+        <h2 class="display-4">Elevator</h2>
+        <canvas id="chart_elevator" width="200" height="200"></canvas>
+    </div>
+</div>
+<div class="text-center">
+    <h2 class="display-4">Building</h2>
+    <hr>
+</div>
+<div class="row">
+        @foreach (var item in ViewBag.customer["build"])
+        {
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Building - @item["id"]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">TechName : @item["techName"]</h6>
+                        <a href="/Home/Intervention?build=@item["id"]" class="card-link">Create building intervention</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center">
+        <h2 class="display-4">Battery</h2>
+        <hr>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.customer["battery"])
+        {
+            @if (item["status"] == "active")
+            {
+                ViewBag.batteryStatus[0] += 1;
+            }
+            else if (item["status"] == "inactive")
+            {
+                ViewBag.batteryStatus[1] += 1;
+            }
+            else
+            {
+                ViewBag.batteryStatus[2] += 1;
+            }
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Battery - @item["id"]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Status : @item["status"]</h6>
+                        <a href="/Home/Intervention?build=@item["build_id"]&battery=@item["id"]" class="card-link">Create Battery intervention</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center">
+        <h2 class="display-4">Column</h2>
+        <hr>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.customer["column"])
+        {
+            @if (item["status"] == "active")
+            {
+                ViewBag.columnStatus[0] += 1;
+            }
+            else if (item["status"] == "inactive")
+            {
+                ViewBag.columnStatus[1] += 1;
+            }
+            else
+            {
+                ViewBag.columnStatus[2] += 1;
+            }
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Column - @item["id"]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Status : @item["status"]</h6>
+                        <a href="/Home/Intervention?battery=@item["battery_id"]&column=@item["id"]" class="card-link">Create Column intervention</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center">
+        <h2 class="display-4">Elevator</h2>
+        <hr>
+    </div>
+    <div class="row">
+
+        @foreach (var item in ViewBag.customer["elevator"])
+        {
+            @if (item["status"] == "active")
+            {
+                ViewBag.elevatorStatus[0] += 1;
+            }
+            else if (item["status"] == "inactive")
+            {
+                ViewBag.elevatorStatus[1] += 1;
+            }
+            else
+            {
+                ViewBag.elevatorStatus[2] += 1;
+            }
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Elevator - @item["id"]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Status : @item["status"]</h6>
+                        <a href="/Home/Intervention?column=@item["column_id"]&elevator=@item["id"]" class="card-link">Create Elevator intervention</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="text-center">
+        <h2 class="display-4">Address</h2>
+        <hr>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.address)
+        {
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item["street"] @item["suite"]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item["city"], @item["postalCode"], @item["country"]</h6>
+                        <a href="/Home/Address?id=@item["id"]" class="card-link">Modify</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+<script>
+    var chart_battery = document.getElementById('chart_battery').getContext('2d');
+    var chart_column = document.getElementById('chart_column').getContext('2d');
+    var chart_elevator = document.getElementById('chart_elevator').getContext('2d');
+
+    var label = ['Active', 'Inactive', 'Intervention']
+    var backColor = [
+                'rgba(23, 255, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 32, 86, 0.2)'
+            ]
+    var bcolor = [
+                'rgba(23, 255, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 32, 86, 1)'
+            ]
+    new Chart(chart_battery, {
+    type: 'doughnut',
+    data: {
+        labels: label,
+        datasets: [{
+            data: [@ViewBag.batteryStatus[0], @ViewBag.batteryStatus[1], @ViewBag.batteryStatus[2]],
+            backgroundColor: backColor,
+            borderColor: bcolor,
+            borderWidth: 1
+        }]
+    }
+
+    });
+    new Chart(chart_column, {
+    type: 'doughnut',
+    data: {
+        labels: label,
+        datasets: [{
+            data: [@ViewBag.columnStatus[0], @ViewBag.columnStatus[1], @ViewBag.columnStatus[2]],
+            backgroundColor: backColor,
+            borderColor: bcolor,
+            borderWidth: 1
+        }]
+    }
+
+    });
+    new Chart(chart_elevator, {
+    type: 'doughnut',
+    data: {
+        labels: label,
+        datasets: [{
+            data: [@ViewBag.elevatorStatus[0], @ViewBag.elevatorStatus[1], @ViewBag.elevatorStatus[2]],
+            backgroundColor: backColor,
+            borderColor: bcolor,
+            borderWidth: 1
+        }]
+    }
+
+});
+</script>
